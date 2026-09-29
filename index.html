@@ -492,5 +492,139 @@
 
 </script>
 
+</body>  <div class="app">
+
+    <header>
+      <div class="logo">Pul<span>se</span></div>
+      <div>🔔</div>
+    </header>
+
+    <main id="home" class="screen active">
+      <div class="feed">
+
+        <div class="video-card">
+          <div class="placeholder">▶️</div>
+
+          <div class="info">
+            <div class="username">@pulseuser</div>
+            <div class="caption">Welcome to Pulse! 🔥 Create, watch and share.</div>
+          </div>
+
+          <div class="actions">
+            <button class="action" onclick="likePost(this)">❤️</button>
+            <div class="count">0</div>
+
+            <button class="action">💬</button>
+            <div class="count">0</div>
+
+            <button class="action">↗️</button>
+            <div class="count">Share</div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <main id="search" class="screen">
+      <h1>Search</h1>
+      <p class="subtitle">Find people and videos on Pulse.</p>
+
+      <input type="text" placeholder="Search Pulse...">
+      <button class="primary">Search</button>
+    </main>
+
+    <main id="upload" class="screen">
+      <h1>Create</h1>
+      <p class="subtitle">Share something with the Pulse community.</p>
+
+      <div class="form">
+        <input type="text" id="captionInput" placeholder="Write a caption...">
+
+        <input type="file" id="videoInput" accept="video/*">
+
+        <button class="primary" onclick="createPost()">Post Video</button>
+
+        <div id="uploadMessage" class="message"></div>
+      </div>
+    </main>
+
+    <main id="profile" class="screen">
+      <h1>Profile</h1>
+
+      <div class="profile-box">
+        <div class="avatar">👤</div>
+
+        <h2>@pulseuser</h2>
+        <p class="subtitle">Welcome to my Pulse profile.</p>
+
+        <button class="secondary">Edit Profile</button>
+      </div>
+    </main>
+
+    <nav>
+      <button onclick="showScreen('home')">
+        <span class="icon">🏠</span>
+        Home
+      </button>
+
+      <button onclick="showScreen('search')">
+        <span class="icon">🔎</span>
+        Search
+      </button>
+
+      <button onclick="showScreen('upload')">
+        <span class="icon">➕</span>
+        Create
+      </button>
+
+      <button onclick="showScreen('profile')">
+        <span class="icon">👤</span>
+        Profile
+      </button>
+    </nav>
+
+  </div>
+
+  <script>
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(function(screen) {
+        screen.classList.remove('active');
+      });
+
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    function likePost(button) {
+      const count = button.nextElementSibling;
+
+      if (button.textContent === '❤️') {
+        button.textContent = '💖';
+        count.textContent = Number(count.textContent) + 1;
+      } else {
+        button.textContent = '❤️';
+        count.textContent = Math.max(0, Number(count.textContent) - 1);
+      }
+    }
+
+    function createPost() {
+      const caption = document.getElementById('captionInput').value;
+      const video = document.getElementById('videoInput').files[0];
+      const message = document.getElementById('uploadMessage');
+
+      if (!video) {
+        message.textContent = 'Please choose a video first.';
+        return;
+      }
+
+      message.textContent =
+        'Video selected successfully! 🚀 Caption: ' +
+        (caption || 'No caption');
+
+      document.getElementById('captionInput').value = '';
+      document.getElementById('videoInput').value = '';
+    }
+  </script>
+
 </body>
+</html>
 </html>
