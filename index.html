@@ -559,7 +559,19 @@
 
         <button class="secondary">Edit Profile</button>
       </div>
-    </main>
+    </main><section id="login" class="screen">
+  <h1>Welcome back</h1>
+  <p class="subtitle">Log in to your Pulse account.</p>
+
+  <div class="form">
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
+
+    <button class="primary" onclick="login()">Log In</button>
+
+    <div id="loginMessage" class="message"></div>
+  </div>
+</section>
 
     <nav>
       <button onclick="showScreen('home')">
@@ -581,7 +593,10 @@
         <span class="icon">👤</span>
         Profile
       </button>
-    </nav>
+    </nav><button onclick="showScreen('login')">
+  <span class="icon">🔐</span>
+  Login
+</button>
 
   </div>
 
@@ -606,7 +621,29 @@
       }
     }
 
-    function createPost() {
+    function createPost()async function login() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const message = document.getElementById('loginMessage');
+
+  if (!email || !password) {
+    message.textContent = 'Please enter your email and password.';
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    message.textContent = error.message;
+    return;
+  }
+
+  message.textContent = 'Login successful! 🎉';
+  showScreen('profile');
+} {
       const caption = document.getElementById('captionInput').value;
       const video = document.getElementById('videoInput').files[0];
       const message = document.getElementById('uploadMessage');
