@@ -510,7 +510,80 @@
   }
 
 
-  function createPost() {
+   {async function createPost() {
+
+  const caption =
+    document.getElementById("caption").value.trim();
+
+  const file =
+    document.getElementById("videoFile").files[0];
+
+  const message =
+    document.getElementById("uploadMessage");
+
+  if (!file) {
+    message.textContent =
+      "Please choose a video first.";
+    return;
+  }
+
+  message.textContent =
+    "Uploading video...";
+
+  const {
+    data: { user }
+  } = await supabaseClient.auth.getUser();
+
+  if (!user) {
+    message.textContent =
+      "Please log in first.";
+    return;
+  }
+
+  const fileName =
+    user.id + "_" + Date.now() + "_" + file.name;
+
+  const { error: uploadError } =
+    await supabaseClient.storage
+      .from("videos")
+      .upload(fileName, file);
+
+  if (uploadError) {
+    message.textContent =
+      "Upload failed: " + uploadError.message;
+    return;
+  }
+
+  const { data: publicData } =
+    supabaseClient.storage
+      .from("videos")
+      .getPublicUrl(fileName);
+
+  const videoUrl =
+    publicData.publicUrl;
+
+  const { error: postError } =
+    await supabaseClient
+      .from("posts")
+      .insert({
+        user_id: user.id,
+        caption: caption,
+        text: caption,
+        video_url: videoUrl
+      });
+
+  if (postError) {
+    message.textContent =
+      "Post failed: " + postError.message;
+    return;
+  }
+
+  message.textContent =
+    "Video posted successfully! 🎉";
+
+  document.getElementById("caption").value = "";
+  document.getElementById("videoFile").value = "";
+}
 
     const caption =
       document.getElementById("caption").value;
