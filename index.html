@@ -528,7 +528,7 @@
 
   const { error: uploadError } =
     await supabaseClient.storage
-      .from("videos")
+      .from("Videos")
       .upload(fileName, file);
 
   if (uploadError) {
@@ -539,7 +539,7 @@
 
   const { data: publicData } =
     supabaseClient.storage
-      .from("videos")
+      .from("Videos")
       .getPublicUrl(fileName);
 
   const videoUrl = publicData.publicUrl;
@@ -564,7 +564,7 @@
     "Video posted successfully! 🎉";
 
   document.getElementById("caption").value = "";
-  document.getElementById("videoFile").value = "";
+  document.getElementById("VideoFile").value = "";
 }
 
 showScreen("home");
