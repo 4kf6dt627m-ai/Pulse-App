@@ -496,21 +496,7 @@
   }
 
 
-  async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    document.getElementById("profileName")
-      .textContent = "Guest";
-
-    document.getElementById("profileEmail")
-      .textContent = "Not logged in";
-
-    showScreen("home");
-  
-
-
-   async function createPost() {
+  async function createPost() {
 
   const caption =
     document.getElementById("caption").value.trim();
@@ -522,21 +508,18 @@
     document.getElementById("uploadMessage");
 
   if (!file) {
-    message.textContent =
-      "Please choose a video first.";
+    message.textContent = "Please choose a video first.";
     return;
   }
 
-  message.textContent =
-    "Uploading video...";
+  message.textContent = "Uploading video...";
 
   const {
     data: { user }
   } = await supabaseClient.auth.getUser();
 
   if (!user) {
-    message.textContent =
-      "Please log in first.";
+    message.textContent = "Please log in first.";
     return;
   }
 
@@ -559,8 +542,7 @@
       .from("videos")
       .getPublicUrl(fileName);
 
-  const videoUrl =
-    publicData.publicUrl;
+  const videoUrl = publicData.publicUrl;
 
   const { error: postError } =
     await supabaseClient
@@ -583,34 +565,9 @@
 
   document.getElementById("caption").value = "";
   document.getElementById("videoFile").value = "";
+}
 
-
-    const caption =
-      document.getElementById("caption").value;
-
-    const file =
-      document.getElementById("videoFile").files[0];
-
-    const message =
-      document.getElementById("uploadMessage");
-
-
-    if (!file) {
-
-      message.textContent =
-        "Please choose a video first.";
-
-      return;
-    }
-
-
-    message.textContent =
-      "Video selected. Upload system will be connected next. 🎥";
-  }
-
-
-  showScreen("home");
-
+showScreen("home");
 </script>
 
 </body>
